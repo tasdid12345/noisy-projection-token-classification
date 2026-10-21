@@ -1,0 +1,35 @@
+{
+  "question": "Can a cross-validated reliability reweighting of noisily projected token labels beat a standard token classifier trained on all projected labels, on a public NER stand-in?",
+  "method": "Random BIO-label corruption of training tokens mimics projection noise; baseline = logistic regression on all noisy labels; improved = LightGBM reliability scores from out-of-fold predictions, drop lowest-reliability tokens, reliability-weighted LightGBM, averaged with baseline.",
+  "dataset": {
+    "name": "WikiANN (English) NER, fixed sentence subset",
+    "source_url": "https://huggingface.co/datasets/unimelb-nlp/wikiann/resolve/main/en/",
+    "n_rows": 6000,
+    "n_train": 4500,
+    "n_test": 1500,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "entity-level micro-F1 on clean test set",
+  "higher_is_better": true,
+  "baseline": "Per-token logistic regression on window features trained on all corrupted training labels.",
+  "improved": "LightGBM on the same features, trained on tokens above the reliability cut-off and weighted by out-of-fold reliability; probabilities averaged with the baseline.",
+  "metrics": {
+    "baseline_score": 0.3048784473585427,
+    "baseline_score_std": 0.005863307830150678,
+    "baseline_f1": 0.3048950472725811,
+    "baseline_acc": 0.7623181216931217,
+    "baseline_f1_PER": 0.355305963914228,
+    "baseline_f1_ORG": 0.17307460790854368,
+    "baseline_f1_LOC": 0.38630456999497165,
+    "improved_score": 0.4064192842135031,
+    "improved_score_std": 0.007138404633653567,
+    "improved_f1": 0.4067544625512614,
+    "improved_acc": 0.8033509700176366,
+    "improved_f1_PER": 0.47535283370946785,
+    "improved_f1_ORG": 0.24212127398112346,
+    "improved_f1_LOC": 0.502789279963193,
+    "improvement": 0.1015408368549604
+  },
+  "notes": "Corruption is synthetic uniform label noise, not real translation-based projection. The corruption rate, drop fraction and blend weight were fixed a priori; no hyper-parameter search was run, because clean training labels are unavailable for selection. Only one sentence split is used; seed std reflects corruption and model randomness only. Test labels are clean. The paper's own numbers are not reproduced here and no comparison to them is claimed."
+}
