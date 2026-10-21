@@ -19,6 +19,32 @@ python analysis.py
 
 Results are written to results.json (and figures/entity_f1.png).
 
+## Results (latest run)
+
+On WikiANN English NER (1,500 clean test sentences), entity-level micro-F1 was 30.5% for a logistic regression trained on all synthetically corrupted labels and 40.6% for my reliability-reweighted LightGBM blend, a single-split result.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.3049 |
+| baseline_score_std | 0.005863 |
+| baseline_f1 | 0.3049 |
+| baseline_acc | 0.7623 |
+| baseline_f1_PER | 0.3553 |
+| baseline_f1_ORG | 0.1731 |
+| baseline_f1_LOC | 0.3863 |
+| improved_score | 0.4064 |
+| improved_score_std | 0.007138 |
+| improved_f1 | 0.4068 |
+| improved_acc | 0.8034 |
+| improved_f1_PER | 0.4754 |
+| improved_f1_ORG | 0.2421 |
+| improved_f1_LOC | 0.5028 |
+| improvement | 0.1015 |
+
+Run on 2026-10-21. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Corruption is synthetic uniform label noise, not real translation-based projection. The corruption rate, drop fraction and blend weight were fixed a priori; no hyper-parameter search was run, because clean training labels are unavailable for selection. Only one sentence split is used; seed std reflects corruption and model randomness only. Test labels are clean. The paper's own numbers are not reproduced here and no comparison to them is claimed.
+
 ## Reference
 
 This project is motivated by the following paper:
